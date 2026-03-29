@@ -21,7 +21,6 @@ def my_sort():
         'Thompson' : '1949',
         'Burton' : '1939',
         }
-    
     sorted_musicians = sorted(d.items(), key=lambda item: (item[1], item[0]))
 
     for name, year in sorted_musicians:
