@@ -1,12 +1,15 @@
 #python3
-import sys
+from pathlib import Path
 
 def parse_periodic_table(file_path):
     elements = []
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         for line in file:
-            # Split the line into key-value pairs
-            name, data = line.split("=", 1)
+            line = line.strip()
+            if not line:
+                continue
+
+            name, data = line.split("=", 1) # Split the line into key-value pairs
             name = name.strip()
             data_parts = data.split(",")
             
@@ -17,7 +20,7 @@ def parse_periodic_table(file_path):
             molar = data_parts[3].split(":")[1].strip()
             electron = data_parts[4].split(":")[1].strip()
             
-            # Append the element as a dictionary
+            # the dictionary element 
             elements.append({
                 "name": name,
                 "position": position,
@@ -28,49 +31,57 @@ def parse_periodic_table(file_path):
             })
     return elements
 
+def build_grid(elements, cols=18):
+    grid = []
+    current_row = [None] * cols
+    previous_position = -1
+
+    for element in elements:
+        position = element["position"]
+
+        # A new row starts when the periodic-table column order wraps around.
+        if previous_position != -1 and position <= previous_position:
+            grid.append(current_row)
+            current_row = [None] * cols
+
+        current_row[position] = element
+        previous_position = position
+
+    grid.append(current_row)
+    return grid
+
+
 def generate_html(elements):
-    html = """
-<!DOCTYPE html>
-<html>
+    html = """<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Periodic Table</title>
-    <style>
-        table { border-collapse: collapse; }
-        td { border: 1px solid black; padding: 10px; text-align: center; vertical-align: top; }
-        h4 { margin: 5px 0; }
-        ul { padding: 0; list-style-type: none; }
-    </style>
 </head>
 <body>
-    <h1>Periodic Table of Elements</h1>
-    <table>
+    <h3>Periodic Table of Elements</h3>
+    <table style="border-collapse: collapse;">
 """
 
-    # Create a 7x18 grid (7 rows, 18 columns) for the periodic table 
-    max_rows, max_cols = 7, 18
-    grid = [[None for _ in range(max_cols)] for _ in range(max_rows)]
-
-    # Place elements in their respective positions
-    for element in elements:
-        row, col = divmod(element["position"], max_cols)
-        grid[row][col] = element
+    grid = build_grid(elements)
 
     # Generate table rows and cells
     for row in grid:
         html += "        <tr>\n"
         for cell in row:
             if cell:
-                html += f"""            <td>
+                electron_label = "electron" if cell["number"] == 1 else "electrons"
+                html += f"""            <td style="border: 1px solid black; padding:10px; text-align:center; vertical-align:top;">
                 <h4>{cell['name']}</h4>
                 <ul>
                     <li>No {cell['number']}</li>
                     <li>{cell['symbol']}</li>
                     <li>{cell['mass']}</li>
-                    <li>{cell['electron']}</li>
+                    <li>{cell['electron']} {electron_label}</li>
                 </ul>
             </td>\n"""
             else:
-                html += "            <td></td>\n"
+                html += "            <td style=\"border: 1px solid black; padding:10px;\"></td>\n"
         html += "        </tr>\n"
 
     html += """
@@ -81,14 +92,14 @@ def generate_html(elements):
     return html
 
 def periodic_table():
-    # Parse the periodic table data from the file
-    elements = parse_periodic_table("periodic_table.txt")
+    base_dir = Path(__file__).resolve().parent
 
-    # Generate the HTML content
+    elements = parse_periodic_table(base_dir / "periodic_table.txt")
+
     html_content = generate_html(elements)
 
-    # Write the HTML content to a file
-    with open("periodic_table.html", "w") as file:
+    output_path = base_dir / "periodic_table.html" # Write the HTML content to a file
+    with open(output_path, "w", encoding="utf-8") as file:
         file.write(html_content)
     print("HTML file 'periodic_table.html' has been created.")
 
