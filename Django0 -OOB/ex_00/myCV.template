@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{page_title}</title>
+	<style>
+		body {
+			margin: 0;
+			min-height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			font-family: Arial, sans-serif;
+		}
+
+		.cv-container {
+			text-align: center;
+			padding-top: 24px;
+		}
+	</style>
+</head>
+<body>
+	<div class="cv-container">
+	<header>
+		<h1>{first_name} {last_name}</h1>
+		<p>Profession: {profession}</p>
+		<p>Age: {age}</p>
+	</header>
+	<main>
+		<h2>Profile</h2>
+		<p>{about}</p>
+	</main>
+	</div>
+</body>
+</html>
