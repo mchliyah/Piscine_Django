@@ -19,7 +19,6 @@ def render_template(template_content, context):
 
     return re.sub(r"\{\s*([a-zA-Z_]\w*)\s*\}", replace_variable, template_content)
 
-
 def main():
     if len(sys.argv) != 2:
         print("Error: wrong number of arguments")

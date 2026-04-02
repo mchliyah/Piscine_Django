@@ -74,25 +74,3 @@ class Elem:
                 and all([type(elem) == Text or isinstance(elem, Elem) for elem in content])
             )
         )
-
-
-if __name__ == "__main__":
-    page = Elem(
-        "html",
-        content=[
-            Elem("head", content=Elem("title", content=Text('"Hello ground!"'))),
-            Elem(
-                "body",
-                content=[
-                    Elem("h1", content=Text('"Oh no, not again!"')),
-                    Elem(
-                        "img",
-                        attr={"src": "http://i.imgur.com/pfp3T.jpg"},
-                        tag_type="simple",
-                    ),
-                ],
-            ),
-        ],
-    )
-    print(page)
-
