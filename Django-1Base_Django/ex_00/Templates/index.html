@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ex00: Markdown Cheatsheet.</title>
+	<style>
+		body {
+			margin: 0;
+			font-family: "Georgia", "Times New Roman", serif;
+			line-height: 1.6;
+			background: #f8f8f6;
+			color: #1d1d1d;
+		}
+
+		.container {
+			max-width: 980px;
+			margin: 0 auto;
+			padding: 2rem 1.25rem 4rem;
+		}
+
+		h1,
+		h2,
+		h3 {
+			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			line-height: 1.25;
+		}
+
+		h1 {
+			margin-bottom: 0.25rem;
+		}
+
+		.subtitle {
+			margin-top: 0;
+			color: #535353;
+		}
+
+		.card {
+			background: #ffffff;
+			border: 1px solid #d7d7d7;
+			border-radius: 10px;
+			padding: 1rem 1.1rem;
+			margin: 1rem 0;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+		}
+
+		code,
+		pre {
+			font-family: "Courier New", Courier, monospace;
+			background: #f2f2f2;
+		}
+
+		code {
+			padding: 0.1rem 0.3rem;
+			border-radius: 4px;
+		}
+
+		pre {
+			overflow-x: auto;
+			padding: 0.8rem;
+			border-radius: 6px;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		th,
+		td {
+			border: 1px solid #cfcfcf;
+			padding: 0.45rem;
+			text-align: left;
+			vertical-align: top;
+		}
+
+		blockquote {
+			border-left: 4px solid #b8b8b8;
+			margin: 0.8rem 0;
+			padding: 0.25rem 0 0.25rem 0.9rem;
+			color: #3f3f3f;
+			background: #fbfbfb;
+		}
+	</style>
+</head>
+<body>
+	<main class="container">
+		<h1>Ex00: Markdown Cheatsheet.</h1>
+		<p class="subtitle">A compact reference for common Markdown syntax.</p>
+
+		<section class="card">
+			<h2>Headings</h2>
+			<pre><code># H1
+## H2
+### H3
+#### H4
+##### H5
+###### H6</code></pre>
+		</section>
+
+		<section class="card">
+			<h2>Text Emphasis</h2>
+			<ul>
+				<li><code>*italic*</code> or <code>_italic_</code></li>
+				<li><code>**bold**</code> or <code>__bold__</code></li>
+				<li><code>***bold italic***</code></li>
+				<li><code>~~strikethrough~~</code></li>
+			</ul>
+		</section>
+
+		<section class="card">
+			<h2>Paragraphs and Line Breaks</h2>
+			<p>Separate paragraphs with a blank line.</p>
+			<p>For a line break, end a line with two spaces or use <code>&lt;br&gt;</code>.</p>
+		</section>
+
+		<section class="card">
+			<h2>Blockquotes</h2>
+			<pre><code>&gt; This is a blockquote.
+&gt;&gt; Nested blockquote.</code></pre>
+			<blockquote>
+				This is a rendered quote example.
+			</blockquote>
+		</section>
+
+		<section class="card">
+			<h2>Lists</h2>
+			<h3>Unordered</h3>
+			<pre><code>- Item A
+- Item B
+  - Nested item</code></pre>
+			<h3>Ordered</h3>
+			<pre><code>1. First
+2. Second
+3. Third</code></pre>
+			<h3>Task List (GitHub Flavored Markdown)</h3>
+			<pre><code>- [x] Done
+- [ ] To do</code></pre>
+		</section>
+
+		<section class="card">
+			<h2>Links and Images</h2>
+			<pre><code>[OpenAI](https://openai.com)
+![Alt text](https://example.com/image.png "Optional title")</code></pre>
+		</section>
+
+		<section class="card">
+			<h2>Code</h2>
+			<h3>Inline Code</h3>
+			<p>Use backticks like <code>`print("hello")`</code>.</p>
+			<h3>Code Block</h3>
+			<pre><code>```python
+def greet(name):
+	return f"Hello, {name}"
+```</code></pre>
+		</section>
+
+		<section class="card">
+			<h2>Horizontal Rule</h2>
+			<pre><code>---
+***
+___</code></pre>
+		</section>
+
+		<section class="card">
+			<h2>Tables (GitHub Flavored Markdown)</h2>
+			<pre><code>| Name | Role |
+|------|------|
+| Ada  | Dev  |
+| Lin  | Ops  |</code></pre>
+
+			<table>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Role</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Ada</td>
+						<td>Dev</td>
+					</tr>
+					<tr>
+						<td>Lin</td>
+						<td>Ops</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section class="card">
+			<h2>Escaping Characters</h2>
+			<p>Use backslash to escape Markdown syntax:</p>
+			<pre><code>\*not italic\*</code></pre>
+		</section>
+
+		<section class="card">
+			<h2>HTML in Markdown</h2>
+			<p>Markdown parsers usually accept inline HTML:</p>
+			<pre><code>&lt;mark&gt;highlight&lt;/mark&gt;
+&lt;sub&gt;subscript&lt;/sub&gt;
+&lt;sup&gt;superscript&lt;/sup&gt;</code></pre>
+		</section>
+	</main>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ex01: Template engine.{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'ex01/style2.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Ex01: Template engine.</h1>
+<p>
+    Django's default template system is the Django Template Language (DTL). It renders
+    text files with template tags and variables into final HTML.
+</p>
+
+<h2>Blocks</h2>
+<p>
+    Blocks define replaceable sections in a base template. Child templates use
+    <code>{% verbatim %}{% block ... %}{% endblock %}{% endverbatim %}</code> to override those sections.
+</p>
+
+<h2>Loops: for ... in</h2>
+<ul>
+    {% for feature in features %}
+    <li>{{ feature }}</li>
+    {% endfor %}
+</ul>
+
+<h2>If control structures</h2>
+{% if show_note %}
+<p>The <code>if</code> tag renders content only when its condition is true.</p>
+{% else %}
+<p>The condition is false, so this alternative branch is rendered.</p>
+{% endif %}
+
+<h2>Displaying context variables</h2>
+<p>
+    Variables passed by the view are displayed with double braces, for example:
+    <code>{% verbatim %}{{ engine_name }}{% endverbatim %}</code>.
+</p>
+<p>Current value from context: {{ engine_name }}</p>
+{% endblock %}
