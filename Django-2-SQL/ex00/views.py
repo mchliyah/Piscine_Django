@@ -27,7 +27,6 @@ def _create_movies_table(connection_params):
 
 def init(request):
     host_value = os.environ.get("POSTGRES_HOST") or os.environ.get("DB_HOST")
-    print(f"Using host: {host_value if host_value is not None else 'default localhost'}")
     connection_params = {
         "dbname": _db_value("POSTGRES_DB", "DB_NAME", "postgres"),
         "user": _db_value("POSTGRES_USER", "DB_USER", "postgres"),
@@ -36,21 +35,8 @@ def init(request):
         "port": _db_value("POSTGRES_PORT", "DB_PORT", "5432"),
     }
 
-    print(f"Connection parameters: {connection_params}")
-
     try:
-        print(f"Attempting to create the movies table with the params : {connection_params}")
         _create_movies_table(connection_params)
-    
         return HttpResponse("OK")
-    except Exception as first_error:
-        print(f"Error occurred: {first_error}")
-        if host_value is None:
-            fallback_params = dict(connection_params)
-            fallback_params.pop("host", None)
-            try:
-                _create_movies_table(fallback_params)
-                return HttpResponse("OK")
-            except Exception as second_error:
-                return HttpResponse(str(second_error), status=500)
-        return HttpResponse(str(first_error), status=500)
+    except Exception as error:
+        return HttpResponse(str(error), status=500)
