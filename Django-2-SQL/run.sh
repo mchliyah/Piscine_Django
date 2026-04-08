@@ -13,11 +13,13 @@ export POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-}"
 export POSTGRES_HOST="${POSTGRES_HOST:-}"
 export POSTGRES_PORT="${POSTGRES_PORT:-5432}"
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+VENV_DIR="$SCRIPT_DIR/.venv"
+
 cd "$SCRIPT_DIR" || exit 1
 
-if [[ -x "/goinfre/mchliyah/Piscine_Django/.venv/bin/python3" ]]; then
-  "/goinfre/mchliyah/Piscine_Django/.venv/bin/python3" manage.py runserver 127.0.0.1:8000
+if [[ -x "$VENV_DIR/bin/python3" ]]; then
+  "$VENV_DIR/bin/python3" manage.py runserver 127.0.0.1:8000
 else
   python3 manage.py runserver 127.0.0.1:8000
 fi
