@@ -26,12 +26,11 @@ def _create_movies_table(connection_params):
 
 
 def init(request):
-    host_value = os.environ.get("POSTGRES_HOST") or os.environ.get("DB_HOST")
     connection_params = {
-        "dbname": _db_value("POSTGRES_DB", "DB_NAME", "postgres"),
-        "user": _db_value("POSTGRES_USER", "DB_USER", "postgres"),
-        "password": _db_value("POSTGRES_PASSWORD", "DB_PASSWORD", ""),
-        "host": host_value if host_value is not None else "localhost",
+        "dbname": _db_value("POSTGRES_DB", "DB_NAME", "djangotraining"),
+        "user": _db_value("POSTGRES_USER", "DB_USER", "djangouser"),
+        "password": _db_value("POSTGRES_PASSWORD", "DB_PASSWORD", "secret"),
+        "host": _db_value("POSTGRES_HOST", "DB_HOST", "localhost"),
         "port": _db_value("POSTGRES_PORT", "DB_PORT", "5432"),
     }
 
