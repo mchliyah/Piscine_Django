@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display People</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>People from Windy Planets</h1>
+    {% if people %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Homeworld</th>
+                    <th>Climate</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for person in people %}
+                    <tr>
+                        <td>{{ person.0 }}</td>
+                        <td>{{ person.1 }}</td>
+                        <td>{{ person.2 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No data available</p>
+    {% endif %}
+</body>
+</html>

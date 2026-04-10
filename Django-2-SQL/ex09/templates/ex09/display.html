@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display People</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .command {
+            font-family: monospace;
+            background-color: #eee;
+            padding: 1em;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>People from Windy Planets</h1>
+    {% if people %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Homeworld</th>
+                    <th>Climate</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for person in people %}
+                    <tr>
+                        <td>{{ person.name }}</td>
+                        <td>{{ person.homeworld.name }}</td>
+                        <td>{{ person.homeworld.climate }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif command %}
+        <p>No data available, please use the following command line before use:</p>
+        <p class="command">{{ command }}</p>
+        {% if error %}
+            <p style="color: red;">Error: {{ error }}</p>
+        {% endif %}
+    {% else %}
+        <p>No data available</p>
+    {% endif %}
+</body>
+</html>

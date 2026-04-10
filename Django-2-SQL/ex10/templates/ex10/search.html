@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    {% if results is not None %}
+        {% if results %}
+            <ul>
+            {% for movie in results %}
+                {% for person in movie.characters.all %}
+                    {% if person.gender == gender_query %}
+                        <li>{{ movie.title }} - {{ person.name }} - {{ person.gender }} - {{ person.homeworld.name }} - {{ person.homeworld.diameter }}</li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nothing corresponding to your research</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
