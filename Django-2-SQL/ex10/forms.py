@@ -1,7 +1,19 @@
 from django import forms
 
 class SearchForm(forms.Form):
-    min_release_date = forms.DateField()
-    max_release_date = forms.DateField()
-    planet_diameter_gt = forms.IntegerField()
-    gender = forms.ChoiceField()
+    min_release_date = forms.DateField(
+        label="Movies minimum release date",
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
+    max_release_date = forms.DateField(
+        label="Movies maximum release date",
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
+    planet_diameter_gt = forms.IntegerField(
+        label="Planet diameter greater than",
+        min_value=0
+    )
+    gender = forms.ChoiceField(
+        label="Character gender",
+        widget=forms.Select()
+    )

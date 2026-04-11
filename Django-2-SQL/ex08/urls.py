@@ -1,8 +1,8 @@
-from django.urls import path
-from . import views
+from django.urls import re_path
+from .views import init, populate, display
 
 urlpatterns = [
-    path('init/', views.init, name='init'),
-    path('populate/', views.populate, name='populate'),
-    path('display/', views.display, name='display'),
+    re_path(r"^ex08/init/?$", init, name='init'),
+    re_path(r"^ex08/populate/?$",  populate, name='populate'),
+    re_path(r"^ex08/display/?$",  display, name='display'),
 ]
