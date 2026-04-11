@@ -1,20 +1,32 @@
 # ex00 - SQL table creation with psycopg2
 
+## Shared DB credentials for all SQL apps
+
+SQL exercises now use a single connection helper in `d05/db.py`.
+
+All credentials can be configured once through environment variables or a `.env` file at project root:
+
+1. `cp .env.example .env`
+2. Edit `.env` with your real PostgreSQL values
+3. Start the project as usual (`./run.sh` loads `.env` automatically)
+
+This removes repeated credentials from views and keeps secrets out of source control.
+
 This exercise exposes a Django view at:
 
 - `http://127.0.0.1:8000/ex00/init`
 
 The view uses `psycopg2` to connect to PostgreSQL and creates the table `ex00_movies` if it does not already exist.
 
-## Environment variables (optional)
+## Environment variables
 
-The view reads PostgreSQL connection settings from environment variables, with sensible local defaults:
+The project reads PostgreSQL connection settings from environment variables or `.env`:
 
-- `POSTGRES_DB` or `DB_NAME` (default: `postgres`)
-- `POSTGRES_USER` or `DB_USER` (default: `postgres`)
-- `POSTGRES_PASSWORD` or `DB_PASSWORD` (default: empty)
-- `POSTGRES_HOST` or `DB_HOST` (default: `localhost`)
-- `POSTGRES_PORT` or `DB_PORT` (default: `5432`)
+- `POSTGRES_DB` or `DB_NAME` (required)
+- `POSTGRES_USER` or `DB_USER` (required)
+- `POSTGRES_PASSWORD` or `DB_PASSWORD` (required)
+- `POSTGRES_HOST` or `DB_HOST` (required)
+- `POSTGRES_PORT` or `DB_PORT` (required)
 
 ## Run
 

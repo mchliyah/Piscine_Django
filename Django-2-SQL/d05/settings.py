@@ -1,5 +1,6 @@
 from pathlib import Path
-import os
+
+from .db import get_django_database_config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -57,17 +58,10 @@ TEMPLATES = [
 WSGI_APPLICATION = "d05.wsgi.application"
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB", "djangotraining"),
-        "USER": os.environ.get("POSTGRES_USER", "djangouser"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "secret"),
-        "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
-        "PORT": os.environ.get("POSTGRES_PORT", "5432"),
-    }
+    "default": get_django_database_config()
 }
 
-AUTH_PASSWORD_VALIDATORS = []
+AUTH_PASSWORD_VALIDATORS: list[dict[str, str]] = []
 
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"

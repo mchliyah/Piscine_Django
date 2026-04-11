@@ -1,10 +1,21 @@
 #!/usr/bin/env zsh
 
-export POSTGRES_DB="${POSTGRES_DB:-djangotraining}"
-export POSTGRES_USER="${POSTGRES_USER:-djangouser}"
-export POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-secret}"
-export POSTGRES_HOST="${POSTGRES_HOST:-localhost}"
-export POSTGRES_PORT="${POSTGRES_PORT:-5432}"
+if [[ -f ".env" ]]; then
+  set -a
+  source ./.env
+  set +a
+fi
+
+export POSTGRES_DB="${POSTGRES_DB:-}"
+export POSTGRES_USER="${POSTGRES_USER:-}"
+export POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-}"
+export POSTGRES_HOST="${POSTGRES_HOST:-}"
+export POSTGRES_PORT="${POSTGRES_PORT:-}"
+
+if [[ -z "$POSTGRES_DB" || -z "$POSTGRES_USER" || -z "$POSTGRES_PASSWORD" || -z "$POSTGRES_HOST" || -z "$POSTGRES_PORT" ]]; then
+  echo "[ERROR] Missing DB configuration. Set POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, POSTGRES_PORT in .env or shell."
+  exit 1
+fi
 
 POSTGRES_CONTAINER_NAME="${POSTGRES_CONTAINER_NAME:-djangotraining-postgres}"
 POSTGRES_IMAGE="${POSTGRES_IMAGE:-postgres:15}"

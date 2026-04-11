@@ -1,16 +1,11 @@
-import os
-
-import psycopg2
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.utils.html import escape
 
-
-def _db_value(primary_key: str, alternate_key: str, default: str) -> str:
-    return os.environ.get(primary_key) or os.environ.get(alternate_key) or default
+from d05.db import get_db_connection
 
 
-def _create_movies_table(connection_params):
+def _create_movies_table():
     sql = """
     CREATE TABLE IF NOT EXISTS ex04_movies (
         title VARCHAR(64) UNIQUE NOT NULL,
@@ -22,12 +17,12 @@ def _create_movies_table(connection_params):
     );
     """
 
-    with psycopg2.connect(**connection_params) as connection:
+    with get_db_connection() as connection:
         with connection.cursor() as cursor:
             cursor.execute(sql)
 
 
-def _populate_movies_table(connection_params):
+def _populate_movies_table():
     movies = [
         {
             "title": "The Phantom Menace",
@@ -93,7 +88,7 @@ def _populate_movies_table(connection_params):
     """
 
     results = []
-    with psycopg2.connect(**connection_params) as connection:
+    with get_db_connection() as connection:
         connection.autocommit = True
         with connection.cursor() as cursor:
             for movie in movies:
@@ -116,46 +111,24 @@ def _populate_movies_table(connection_params):
 
 
 def init(request):
-    connection_params = {
-        "dbname": _db_value("POSTGRES_DB", "DB_NAME", "djangotraining"),
-        "user": _db_value("POSTGRES_USER", "DB_USER", "djangouser"),
-        "password": _db_value("POSTGRES_PASSWORD", "DB_PASSWORD", "secret"),
-        "host": _db_value("POSTGRES_HOST", "DB_HOST", "localhost"),
-        "port": _db_value("POSTGRES_PORT", "DB_PORT", "5432"),
-    }
-
     try:
-        _create_movies_table(connection_params)
+        _create_movies_table()
         return HttpResponse("OK")
     except Exception as error:
         return HttpResponse(str(error), status=500)
 
 
 def populate(request):
-    connection_params = {
-        "dbname": _db_value("POSTGRES_DB", "DB_NAME", "djangotraining"),
-        "user": _db_value("POSTGRES_USER", "DB_USER", "djangouser"),
-        "password": _db_value("POSTGRES_PASSWORD", "DB_PASSWORD", "secret"),
-        "host": _db_value("POSTGRES_HOST", "DB_HOST", "localhost"),
-        "port": _db_value("POSTGRES_PORT", "DB_PORT", "5432"),
-    }
     try:
-        results = _populate_movies_table(connection_params)
+        results = _populate_movies_table()
         return HttpResponse("<br>".join(results))
     except Exception as error:
         return HttpResponse(str(error), status=500)
 
 
 def display(request):
-    connection_params = {
-        "dbname": _db_value("POSTGRES_DB", "DB_NAME", "djangotraining"),
-        "user": _db_value("POSTGRES_USER", "DB_USER", "djangouser"),
-        "password": _db_value("POSTGRES_PASSWORD", "DB_PASSWORD", "secret"),
-        "host": _db_value("POSTGRES_HOST", "DB_HOST", "localhost"),
-        "port": _db_value("POSTGRES_PORT", "DB_PORT", "5432"),
-    }
     try:
-        with psycopg2.connect(**connection_params) as connection:
+        with get_db_connection() as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
                     """
@@ -198,24 +171,16 @@ def display(request):
 
 @csrf_exempt
 def remove(request):
-    connection_params = {
-        "dbname": _db_value("POSTGRES_DB", "DB_NAME", "djangotraining"),
-        "user": _db_value("POSTGRES_USER", "DB_USER", "djangouser"),
-        "password": _db_value("POSTGRES_PASSWORD", "DB_PASSWORD", "secret"),
-        "host": _db_value("POSTGRES_HOST", "DB_HOST", "localhost"),
-        "port": _db_value("POSTGRES_PORT", "DB_PORT", "5432"),
-    }
-
     try:
         if request.method == "POST":
             title = request.POST.get("title", "").strip()
             if title:
-                with psycopg2.connect(**connection_params) as connection:
+                with get_db_connection() as connection:
                     connection.autocommit = True
                     with connection.cursor() as cursor:
                         cursor.execute("DELETE FROM ex04_movies WHERE title = %s;", (title,))
 
-        with psycopg2.connect(**connection_params) as connection:
+        with get_db_connection() as connection:
             with connection.cursor() as cursor:
                 cursor.execute("SELECT title FROM ex04_movies ORDER BY episode_nb;")
                 titles = [row[0] for row in cursor.fetchall()]

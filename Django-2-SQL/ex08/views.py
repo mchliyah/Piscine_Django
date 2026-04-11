@@ -1,16 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-import psycopg2
-import os
 
-def get_db_connection():
-    return psycopg2.connect(
-        host=os.environ.get('POSTGRES_HOST', 'localhost'),
-        dbname=os.environ.get('POSTGRES_DB', 'piscine_django'),
-        user=os.environ.get('POSTGRES_USER', 'mchliyah'),
-        password=os.environ.get('POSTGRES_PASSWORD', 'mysecretpassword'),
-        port=os.environ.get('POSTGRES_PORT', '5432')
-    )
+from d05.db import get_db_connection
 
 def init(request):
     try:
