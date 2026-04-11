@@ -84,7 +84,7 @@ psql -h localhost -U djangouser -d djangotraining -c "\dt"
 
 This exercise exposes two views:
 
-- `http://127.0.0.1:8000/ex03/populate`
+- `http://127.0.0.1:8000/`
 - `http://127.0.0.1:8000/ex03/display`
 
 `/ex03/populate` inserts the 7 Star Wars movies with Django ORM and returns one line per insert (`OK` or an error message).

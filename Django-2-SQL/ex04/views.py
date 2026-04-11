@@ -1,6 +1,7 @@
 import os
 
 import psycopg2
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.utils.html import escape
 
@@ -195,6 +196,7 @@ def display(request):
         return HttpResponse("No data available")
 
 
+@csrf_exempt
 def remove(request):
     connection_params = {
         "dbname": _db_value("POSTGRES_DB", "DB_NAME", "djangotraining"),

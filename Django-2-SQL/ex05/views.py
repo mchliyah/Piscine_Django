@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.utils.html import escape
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Movies
 
@@ -109,7 +110,7 @@ def display(request):
     except Exception:
         return HttpResponse("No data available")
 
-
+@csrf_exempt
 def remove(request):
     try:
         if request.method == "POST":
