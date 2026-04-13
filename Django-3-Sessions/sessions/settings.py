@@ -16,6 +16,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ex00',
+    'ex01',
+    'ex02',
+    'ex03',
+    'ex06',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +67,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "ex06.User"
 
 USER_NAMES = [
     "Anonymous", "Captain", "Duke", "Baron", "Count",

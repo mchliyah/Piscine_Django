@@ -5,8 +5,78 @@
 </head>
 <body>
     <nav>
-        <p>Hello {{ user_name }}!</p>
+        <a href="/">Life Pro Tips</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">Log out</a>
+        {% else %}
+            <a href="{% url 'register' %}">Registration</a>
+            <a href="{% url 'login' %}">Log in</a>
+        {% endif %}
+        <p>Hello {{ display_name }}!</p>
     </nav>
+
     <h1>Welcome to Life Pro Tips</h1>
+
+    {% if user.is_authenticated and tip_form %}
+        <section>
+            <h2>Create a tip</h2>
+            <form method="post" action="{% url 'home' %}">
+                {% csrf_token %}
+                {{ tip_form.content }}
+                {% if tip_form.content.errors %}
+                    <div>{{ tip_form.content.errors }}</div>
+                {% endif %}
+                <button type="submit">Post tip</button>
+            </form>
+        </section>
+    {% endif %}
+
+    <section>
+        <h2>All tips</h2>
+        {% if tips %}
+            <ul>
+                {% for tip in tips %}
+                    <li>
+                        <p>{{ tip.content }}</p>
+                        <p>Author: {{ tip.author.username }}</p>
+                        <p>Date: {{ tip.tip_date }}</p>
+                        <p>Upvotes: {{ tip.upvoters.count }}</p>
+                        <p>Downvotes: {{ tip.downvoters.count }}</p>
+
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'tip_upvote' tip.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit">Upvote</button>
+                            </form>
+
+                            <form method="post" action="{% url 'tip_downvote' tip.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                {% if tip.can_downvote %}
+                                    <button type="submit">Downvote</button>
+                                {% else %}
+                                    <button type="submit" disabled>Downvote</button>
+                                {% endif %}
+                            </form>
+
+                            <form method="post" action="{% url 'tip_delete' tip.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                {% if tip.can_delete %}
+                                    <button type="submit">Delete</button>
+                                {% else %}
+                                    <button type="submit" disabled>Delete</button>
+                                {% endif %}
+                            </form>
+                        {% else %}
+                            <button disabled>Upvote</button>
+                            <button disabled>Downvote</button>
+                            <button disabled>Delete</button>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tips yet.</p>
+        {% endif %}
+    </section>
 </body>
 </html>
