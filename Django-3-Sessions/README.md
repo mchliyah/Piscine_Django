@@ -39,21 +39,13 @@ In the final state, `ex04` and `ex05` restrictions are still respected, but auth
 ## Requirements
 - Python 3
 - Packages from `requirements.txt`
-
+- the .sh files handle every thing about the venv 
 ## Setup
 ```bash
 cd /home/mchliyah/Piscine_Django/Django-3-Sessions
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+. ./env.sh
 
-## Run
-```bash
-cd /home/mchliyah/Piscine_Django/Django-3-Sessions
-source .venv/bin/activate
-python manage.py migrate
-python manage.py runserver
+. ./run.sh
 ```
 
 ## Tests
