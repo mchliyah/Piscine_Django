@@ -1,0 +1,24 @@
+.site-nav {
+  margin-bottom: 1rem;
+}
+
+.site-nav .navbar-brand {
+  font-weight: 600;
+}
+
+.site-nav .nav-inline-login {
+  gap: 0.5rem;
+}
+
+.site-nav .nav-inline-login input {
+  max-width: 150px;
+}
+
+.site-nav .logged-as {
+  color: #adb5bd;
+  margin-right: 0.75rem;
+}
+
+.content-wrap {
+  padding: 0 1rem 1rem;
+}

@@ -7,6 +7,8 @@ __pycache__/
 *.pyd
 .python-version
 
+.vscode/
+.idea/
 .env
 .env.*
 *.env

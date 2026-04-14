@@ -1,0 +1,66 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark site-nav">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">Advanced</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">{% if LANGUAGE_CODE == 'fr' %}Accueil{% else %}Home{% endif %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'articles' %}">{% if LANGUAGE_CODE == 'fr' %}Derniers articles{% else %}Last Articles{% endif %}</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'favourites' %}">{% if LANGUAGE_CODE == 'fr' %}Favoris{% else %}Favourites{% endif %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'publications' %}">{% if LANGUAGE_CODE == 'fr' %}Publications{% else %}Publications{% endif %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">{% if LANGUAGE_CODE == 'fr' %}Déconnexion{% else %}Logout{% endif %}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        {% if LANGUAGE_CODE == 'fr' %}
+                            <a class="nav-link" href="/fr/register/">Inscription</a>
+                        {% else %}
+                            <a class="nav-link" href="/en/register/">Register</a>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            </ul>
+
+            {% if user.is_authenticated %}
+                <span class="navbar-text logged-as">{% if LANGUAGE_CODE == 'fr' %}Connecté en tant que {{ user.username }}{% else %}Logged as {{ user.username }}{% endif %}</span>
+            {% else %}
+                {% if LANGUAGE_CODE == 'fr' %}
+                    <form class="d-flex align-items-center nav-inline-login" method="post" action="/fr/login/">
+                {% else %}
+                    <form class="d-flex align-items-center nav-inline-login" method="post" action="/en/login/">
+                {% endif %}
+                    {% csrf_token %}
+                    <input class="form-control form-control-sm" type="text" name="username" placeholder="{% if LANGUAGE_CODE == 'fr' %}Identifiant{% else %}Username{% endif %}" required>
+                    <input class="form-control form-control-sm" type="password" name="password" placeholder="{% if LANGUAGE_CODE == 'fr' %}Mot de passe{% else %}Password{% endif %}" required>
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button class="btn btn-sm btn-outline-light" type="submit">{% if LANGUAGE_CODE == 'fr' %}Connexion{% else %}Login{% endif %}</button>
+                </form>
+            {% endif %}
+
+            <span class="navbar-text ms-3">
+                {% language 'en' %}
+                    <a class="text-light" href="{% url 'articles' %}">EN</a>
+                {% endlanguage %}
+                |
+                {% language 'fr' %}
+                    <a class="text-light" href="{% url 'articles' %}">FR</a>
+                {% endlanguage %}
+            </span>
+        </div>
+    </div>
+</nav>
